@@ -58,64 +58,27 @@ export default function Header({ theme, toggleTheme }) {
         alignItems: 'center',
         justifyContent: 'space-between',
         height: 'var(--header-height)',
-        gap: 'var(--space-4)',
+        gap: 'var(--space-2)',
       }}>
         {/* Logo */}
-        <Link to="/" style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--space-2)',
-          fontWeight: 800,
-          fontSize: '1.125rem',
-          color: 'var(--color-primary)',
-          textDecoration: 'none',
-          flexShrink: 0,
-        }} aria-label="NovaHamo Tools - Home">
-          <div style={{
-            width: 34,
-            height: 34,
-            backgroundColor: '#ffffff',
-            borderRadius: 'var(--radius-md)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            flexShrink: 0,
-          }}>
+        <Link to="/" className="brand-logo" aria-label="NovaHamo Tools - Home">
+          <div className="brand-logo-badge">
             <img
               src="/logo.png"
               alt="NovaHamo Tools Logo"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
+              className="brand-logo-img"
             />
           </div>
-          <span style={{ display: 'inline' }}>NovaHamo Tools</span>
+          <span className="brand-logo-text">NovaHamo Tools</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--space-1)',
-        }} className="desktop-nav">
+        <nav className="desktop-nav">
           {navItems.map(item => (
             <Link
               key={item.path}
               to={item.path}
-              style={{
-                padding: 'var(--space-2) var(--space-3)',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                color: location.pathname === item.path ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-                transition: 'color var(--transition-fast)',
-                textDecoration: 'none',
-              }}
+              className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
             >
               {item.label}
             </Link>
@@ -123,31 +86,18 @@ export default function Header({ theme, toggleTheme }) {
         </nav>
 
         {/* Right Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+        <div className="header-actions">
           {/* Search */}
-          <div ref={searchRef} style={{ position: 'relative' }}>
+          <div ref={searchRef} className="search-wrapper">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="btn btn-ghost btn-sm"
+              className="btn btn-ghost btn-icon"
               aria-label="Search tools"
-              style={{ padding: 'var(--space-2)' }}
             >
               <Search size={20} />
             </button>
             {searchOpen && (
-              <div style={{
-                position: 'absolute',
-                right: 0,
-                top: '100%',
-                marginTop: 'var(--space-2)',
-                width: '320px',
-                backgroundColor: 'var(--color-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-xl)',
-                padding: 'var(--space-3)',
-                zIndex: 200,
-              }}>
+              <div className="header-search-dropdown">
                 <input
                   type="text"
                   className="input-field"
@@ -198,9 +148,8 @@ export default function Header({ theme, toggleTheme }) {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="btn btn-ghost btn-sm"
+            className="btn btn-ghost btn-icon"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            style={{ padding: 'var(--space-2)' }}
           >
             {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
           </button>
@@ -208,10 +157,9 @@ export default function Header({ theme, toggleTheme }) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="btn btn-ghost btn-sm mobile-menu-btn"
+            className="mobile-menu-btn"
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
-            style={{ padding: 'var(--space-2)' }}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -220,40 +168,32 @@ export default function Header({ theme, toggleTheme }) {
 
       {/* Mobile Nav */}
       {mobileOpen && (
-        <nav style={{
-          backgroundColor: 'var(--color-surface)',
-          borderTop: '1px solid var(--color-border)',
-          padding: 'var(--space-4)',
-        }} className="mobile-nav">
-          {navItems.map(item => (
-            <Link
-              key={item.path}
-              to={item.path}
-              style={{
-                display: 'block',
-                padding: 'var(--space-3) var(--space-4)',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '1rem',
-                fontWeight: 500,
-                color: location.pathname === item.path ? 'var(--color-primary)' : 'var(--color-text)',
-                textDecoration: 'none',
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="mobile-nav" aria-label="Mobile Navigation">
+          <div className="mobile-nav-links">
+            {navItems.map(item => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`mobile-nav-link ${location.pathname === item.path ? 'active' : ''}`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mobile-nav-categories">
+            <div className="mobile-nav-cat-title">Popular Categories</div>
+            <div className="mobile-nav-cat-grid">
+              <Link to="/tools/pdf" className="mobile-cat-pill">📄 PDF</Link>
+              <Link to="/tools/images" className="mobile-cat-pill">🖼️ Images</Link>
+              <Link to="/tools/qr" className="mobile-cat-pill">📱 QR Codes</Link>
+              <Link to="/tools/video-audio" className="mobile-cat-pill">🎬 Video & Audio</Link>
+              <Link to="/tools/calculators" className="mobile-cat-pill">🧮 Calculators</Link>
+              <Link to="/tools/developer" className="mobile-cat-pill">💻 Developer</Link>
+            </div>
+          </div>
         </nav>
       )}
-
-      <style>{`
-        .desktop-nav { display: none; }
-        .mobile-menu-btn { display: flex; }
-        @media (min-width: 768px) {
-          .desktop-nav { display: flex; }
-          .mobile-menu-btn { display: none !important; }
-          .mobile-nav { display: none !important; }
-        }
-      `}</style>
     </header>
   );
 }

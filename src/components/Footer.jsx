@@ -49,11 +49,7 @@ export default function Footer() {
       marginTop: 'auto',
     }}>
       <div className="container" style={{ padding: 'var(--space-12) var(--space-4)' }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(1, 1fr)',
-          gap: 'var(--space-8)',
-        }} className="footer-grid">
+        <div className="footer-grid">
           {/* Brand */}
           <div>
             <div style={{
