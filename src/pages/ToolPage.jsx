@@ -10,7 +10,7 @@ export default function ToolPage() {
   const { toolSlug } = useParams();
   const route = `/tool/${toolSlug}`;
 
-  const tool = tools.find(t => t.route === route);
+  const tool = tools.find(t => t.id === toolSlug || t.route === route);
 
   if (!tool) {
     return (
