@@ -8,6 +8,12 @@ export default function Header({ theme, toggleTheme }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 768;
+    }
+    return false;
+  });
   const searchRef = useRef(null);
   const location = useLocation();
 
@@ -16,6 +22,19 @@ export default function Header({ theme, toggleTheme }) {
     setSearchOpen(false);
     setSearchQuery('');
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const desktop = window.innerWidth >= 768;
+      setIsDesktop(desktop);
+      if (desktop) {
+        setMobileOpen(false);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (searchQuery.trim().length >= 2) {
@@ -45,21 +64,8 @@ export default function Header({ theme, toggleTheme }) {
   ];
 
   return (
-    <header style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-      backgroundColor: 'var(--color-header-bg)',
-      borderBottom: '1px solid var(--color-header-border)',
-      backdropFilter: 'blur(8px)',
-    }}>
-      <div className="container" style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: 'var(--header-height)',
-        gap: 'var(--space-2)',
-      }}>
+    <header className="site-header">
+      <div className="container header-container">
         {/* Logo */}
         <Link to="/" className="brand-logo" aria-label="NovaHamo Tools - Home">
           <div className="brand-logo-badge">
@@ -72,18 +78,20 @@ export default function Header({ theme, toggleTheme }) {
           <span className="brand-logo-text">NovaHamo Tools</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="desktop-nav">
-          {navItems.map(item => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        {/* Desktop Navigation - Strictly rendered only on desktop */}
+        {isDesktop && (
+          <nav className="desktop-nav" aria-label="Main Navigation">
+            {navItems.map(item => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        )}
 
         {/* Right Actions */}
         <div className="header-actions">
@@ -154,20 +162,22 @@ export default function Header({ theme, toggleTheme }) {
             {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
           </button>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="mobile-menu-btn"
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Menu Button - Strictly rendered only on mobile */}
+          {!isDesktop && (
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="mobile-menu-btn"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Mobile Nav */}
-      {mobileOpen && (
+      {/* Mobile Nav Drawer */}
+      {!isDesktop && mobileOpen && (
         <nav className="mobile-nav" aria-label="Mobile Navigation">
           <div className="mobile-nav-links">
             {navItems.map(item => (
