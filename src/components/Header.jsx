@@ -72,12 +72,28 @@ export default function Header({ theme, toggleTheme }) {
           flexShrink: 0,
         }} aria-label="NovaHamo Tools - Home">
           <div style={{
-            width: 32, height: 32,
-            backgroundColor: 'var(--color-primary)',
+            width: 34,
+            height: 34,
+            backgroundColor: '#ffffff',
             borderRadius: 'var(--radius-md)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontWeight: 800, fontSize: '0.875rem',
-          }}>NH</div>
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+            border: '1px solid rgba(0, 0, 0, 0.08)',
+            flexShrink: 0,
+          }}>
+            <img
+              src="/logo.png"
+              alt="NovaHamo Tools Logo"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+              }}
+            />
+          </div>
           <span style={{ display: 'inline' }}>NovaHamo Tools</span>
         </Link>
 

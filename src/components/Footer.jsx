@@ -61,12 +61,28 @@ export default function Footer() {
               marginBottom: 'var(--space-4)',
             }}>
               <div style={{
-                width: 32, height: 32,
-                backgroundColor: 'var(--color-primary)',
+                width: 34,
+                height: 34,
+                backgroundColor: '#ffffff',
                 borderRadius: 'var(--radius-md)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#fff', fontWeight: 800, fontSize: '0.75rem',
-              }}>NH</div>
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                border: '1px solid rgba(0, 0, 0, 0.08)',
+                flexShrink: 0,
+              }}>
+                <img
+                  src="/logo.png"
+                  alt="NovaHamo Tools Logo"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
               <span style={{ fontWeight: 700, fontSize: '1.125rem', color: 'var(--color-footer-heading)' }}>
                 NovaHamo Tools
               </span>
