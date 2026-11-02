@@ -18,7 +18,7 @@ import {
   CircleDot, FileEdit, Barcode, ScanBarcode, Gauge, FileSpreadsheet,
   UserSquare2, Pen, CheckSquare, CaseSensitive, ListFilter, XCircle,
   Space, ListOrdered, RotateCcw, FileDiff, FileCode2, TerminalSquare,
-  ArrowRightLeft, Play, Bell, Bookmark, UserCheck, Images
+  ArrowRightLeft, Play, Bell, Bookmark, UserCheck, Images, Grid2X2
 } from 'lucide-react';
 
 // Exhaustive dictionary mapping all 167 tool IDs to their bespoke 3D icon specifications
