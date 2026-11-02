@@ -8,6 +8,7 @@ export default function Header({ theme, toggleTheme }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [scrolled, setScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth >= 768;
@@ -22,6 +23,14 @@ export default function Header({ theme, toggleTheme }) {
     setSearchOpen(false);
     setSearchQuery('');
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 25);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -64,7 +73,7 @@ export default function Header({ theme, toggleTheme }) {
   ];
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
         {/* Logo */}
         <Link to="/" className="brand-logo" aria-label="NovaHamo Tools - Home">
@@ -101,53 +110,57 @@ export default function Header({ theme, toggleTheme }) {
               onClick={() => setSearchOpen(!searchOpen)}
               className="btn btn-ghost btn-icon"
               aria-label="Search tools"
+              title="Search tools"
             >
-              <Search size={20} />
+              <Search size={19} />
             </button>
             {searchOpen && (
               <div className="header-search-dropdown">
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="Search tools..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  autoFocus
-                  aria-label="Search tools"
-                />
+                <div style={{ position: 'relative' }}>
+                  <Search size={16} style={{
+                    position: 'absolute',
+                    left: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: 'var(--color-text-muted)',
+                    pointerEvents: 'none'
+                  }} />
+                  <input
+                    type="text"
+                    className="input-field"
+                    placeholder="Search tools... (e.g. PDF, QR, Image)"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    autoFocus
+                    aria-label="Search tools"
+                    style={{ paddingLeft: '36px' }}
+                  />
+                </div>
+
                 {searchResults.length > 0 && (
-                  <div style={{ marginTop: 'var(--space-2)', maxHeight: '300px', overflowY: 'auto' }}>
+                  <div style={{ marginTop: 'var(--space-2)', maxHeight: '320px', overflowY: 'auto' }}>
                     {searchResults.map(tool => (
                       <Link
                         key={tool.id}
                         to={tool.route}
-                        style={{
-                          display: 'block',
-                          padding: 'var(--space-2) var(--space-3)',
-                          borderRadius: 'var(--radius-sm)',
-                          fontSize: '0.875rem',
-                          color: 'var(--color-text)',
-                          textDecoration: 'none',
-                          transition: 'background-color var(--transition-fast)',
+                        className="search-result-item"
+                        onClick={() => {
+                          setSearchOpen(false);
+                          setSearchQuery('');
                         }}
-                        onMouseOver={e => e.currentTarget.style.backgroundColor = 'var(--color-primary-bg)'}
-                        onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}
                       >
-                        <div style={{ fontWeight: 600 }}>{tool.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
-                          {tool.description.substring(0, 60)}...
+                        <div className="search-result-name">{tool.name}</div>
+                        <div className="search-result-desc">
+                          {tool.description.substring(0, 68)}...
                         </div>
                       </Link>
                     ))}
                   </div>
                 )}
                 {searchQuery.trim().length >= 2 && searchResults.length === 0 && (
-                  <p style={{
-                    padding: 'var(--space-4)',
-                    textAlign: 'center',
-                    color: 'var(--color-text-muted)',
-                    fontSize: '0.875rem',
-                  }}>No tools found</p>
+                  <p className="search-empty-state">
+                    No tools found for &quot;{searchQuery}&quot;
+                  </p>
                 )}
               </div>
             )}
@@ -158,8 +171,9 @@ export default function Header({ theme, toggleTheme }) {
             onClick={toggleTheme}
             className="btn btn-ghost btn-icon"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
           >
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+            {theme === 'light' ? <Moon size={19} /> : <Sun size={19} />}
           </button>
 
           {/* Mobile Menu Button - Strictly rendered only on mobile */}
@@ -170,7 +184,7 @@ export default function Header({ theme, toggleTheme }) {
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           )}
         </div>
@@ -185,6 +199,7 @@ export default function Header({ theme, toggleTheme }) {
                 key={item.path}
                 to={item.path}
                 className={`mobile-nav-link ${location.pathname === item.path ? 'active' : ''}`}
+                onClick={() => setMobileOpen(false)}
               >
                 {item.label}
               </Link>
@@ -194,12 +209,12 @@ export default function Header({ theme, toggleTheme }) {
           <div className="mobile-nav-categories">
             <div className="mobile-nav-cat-title">Popular Categories</div>
             <div className="mobile-nav-cat-grid">
-              <Link to="/tools/pdf" className="mobile-cat-pill">📄 PDF</Link>
-              <Link to="/tools/images" className="mobile-cat-pill">🖼️ Images</Link>
-              <Link to="/tools/qr" className="mobile-cat-pill">📱 QR Codes</Link>
-              <Link to="/tools/video-audio" className="mobile-cat-pill">🎬 Video & Audio</Link>
-              <Link to="/tools/calculators" className="mobile-cat-pill">🧮 Calculators</Link>
-              <Link to="/tools/developer" className="mobile-cat-pill">💻 Developer</Link>
+              <Link to="/tools/pdf" className="mobile-cat-pill" onClick={() => setMobileOpen(false)}>📄 PDF</Link>
+              <Link to="/tools/images" className="mobile-cat-pill" onClick={() => setMobileOpen(false)}>🖼️ Images</Link>
+              <Link to="/tools/qr" className="mobile-cat-pill" onClick={() => setMobileOpen(false)}>📱 QR Codes</Link>
+              <Link to="/tools/video-audio" className="mobile-cat-pill" onClick={() => setMobileOpen(false)}>🎬 Video & Audio</Link>
+              <Link to="/tools/calculators" className="mobile-cat-pill" onClick={() => setMobileOpen(false)}>🧮 Calculators</Link>
+              <Link to="/tools/developer" className="mobile-cat-pill" onClick={() => setMobileOpen(false)}>💻 Developer</Link>
             </div>
           </div>
         </nav>

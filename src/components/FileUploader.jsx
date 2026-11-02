@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback } from 'react';
-import { Upload, X, FileIcon } from 'lucide-react';
+import { Upload, X, FileIcon, CheckCircle, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { formatFileSize } from '../utils/download';
 
 export default function FileUploader({
@@ -22,7 +23,7 @@ export default function FileUploader({
     // Validate file sizes
     const oversized = newFiles.find(f => f.size > maxSizeMB * 1024 * 1024);
     if (oversized) {
-      setError(`File "${oversized.name}" exceeds ${maxSizeMB}MB limit.`);
+      setError(`File "${oversized.name}" exceeds the ${maxSizeMB}MB limit.`);
       return;
     }
 
@@ -60,7 +61,7 @@ export default function FileUploader({
   }, [onFilesSelected]);
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <div
         className={`upload-area ${dragOver ? 'drag-over' : ''}`}
         onClick={() => inputRef.current?.click()}
@@ -72,12 +73,29 @@ export default function FileUploader({
         aria-label={label}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click(); }}
       >
-        <Upload size={40} className="upload-area-icon" style={{ margin: '0 auto var(--space-4)' }} />
-        <p className="upload-area-text">
+        <div style={{
+          width: 52,
+          height: 52,
+          borderRadius: 'var(--radius-xl)',
+          backgroundColor: 'var(--color-primary-bg)',
+          color: 'var(--color-primary)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto var(--space-3)',
+          boxShadow: '0 4px 14px var(--color-primary-glow)',
+          transition: 'transform var(--transition-spring)',
+        }}>
+          <Upload size={24} />
+        </div>
+        <p className="upload-area-text" style={{ fontSize: '1rem', fontWeight: 600 }}>
           <strong>Click to upload</strong> or drag and drop
         </p>
-        <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)' }}>
+        <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', marginTop: 'var(--space-1)' }}>
           {description}
+        </p>
+        <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-2)' }}>
+          Max file size: {maxSizeMB}MB
         </p>
         <input
           ref={inputRef}
@@ -91,52 +109,92 @@ export default function FileUploader({
       </div>
 
       {error && (
-        <div className="notification notification-error" style={{ marginTop: 'var(--space-3)' }}>
-          {error}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="notification notification-error"
+          style={{ marginTop: 'var(--space-3)' }}
+        >
+          <AlertCircle size={18} style={{ flexShrink: 0 }} />
+          <span>{error}</span>
+        </motion.div>
       )}
 
       {files.length > 0 && (
-        <div style={{ marginTop: 'var(--space-3)' }}>
-          {files.map((file, index) => (
-            <div key={index} style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: 'var(--space-3) var(--space-4)',
-              backgroundColor: 'var(--color-surface)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-md)',
-              marginBottom: 'var(--space-2)',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', minWidth: 0 }}>
-                <FileIcon size={18} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
-                <div style={{ minWidth: 0 }}>
-                  <p style={{
-                    fontSize: '0.875rem', fontWeight: 500,
-                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                  }}>
-                    {file.name}
-                  </p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                    {formatFileSize(file.size)}
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={(e) => { e.stopPropagation(); removeFile(index); }}
-                className="btn btn-ghost btn-sm"
-                aria-label={`Remove ${file.name}`}
-                style={{ padding: 'var(--space-1)', flexShrink: 0 }}
+        <div style={{ marginTop: 'var(--space-4)' }}>
+          <AnimatePresence>
+            {files.map((file, index) => (
+              <motion.div
+                key={`${file.name}-${index}`}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: 'var(--space-3) var(--space-4)',
+                  backgroundColor: 'var(--color-card)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 'var(--radius-lg)',
+                  marginBottom: 'var(--space-2)',
+                  boxShadow: 'var(--shadow-sm)',
+                }}
               >
-                <X size={16} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', minWidth: 0 }}>
+                  <div style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--color-primary-bg)',
+                    color: 'var(--color-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}>
+                    <FileIcon size={16} />
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <p style={{
+                      fontSize: '0.875rem',
+                      fontWeight: 600,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      color: 'var(--color-text)',
+                    }}>
+                      {file.name}
+                    </p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+                      {formatFileSize(file.size)}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); removeFile(index); }}
+                  className="btn btn-ghost btn-sm"
+                  aria-label={`Remove ${file.name}`}
+                  title="Remove file"
+                  style={{ padding: 'var(--space-1)', minHeight: 32, minWidth: 32, flexShrink: 0 }}
+                >
+                  <X size={16} />
+                </button>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {multiple && files.length > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-2)' }}>
+              <button
+                onClick={clearAll}
+                className="btn btn-ghost btn-sm"
+                style={{ fontSize: '0.75rem', color: 'var(--color-error)' }}
+              >
+                Clear all files
               </button>
             </div>
-          ))}
-          {multiple && files.length > 1 && (
-            <button onClick={clearAll} className="btn btn-ghost btn-sm" style={{ marginTop: 'var(--space-2)' }}>
-              Clear all files
-            </button>
           )}
         </div>
       )}

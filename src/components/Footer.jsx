@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Globe, ExternalLink } from 'lucide-react';
+import { Globe, ExternalLink, Sparkles, Heart } from 'lucide-react';
 import categories from '../data/categories';
 
 const InstagramIcon = ({ size = 18 }) => (
@@ -43,30 +43,40 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer style={{
+    <footer className="footer-premium" style={{
       backgroundColor: 'var(--color-footer-bg)',
       color: 'var(--color-footer-text)',
       marginTop: 'auto',
+      position: 'relative',
+      borderTop: '1px solid rgba(22, 163, 74, 0.2)',
     }}>
-      <div className="container" style={{ padding: 'var(--space-12) var(--space-4)' }}>
+      {/* Decorative top ambient glow line */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: '20%',
+        right: '20%',
+        height: '1px',
+        background: 'linear-gradient(90deg, transparent, #22C55E, transparent)',
+        filter: 'blur(1px)',
+      }} />
+
+      <div className="container" style={{ padding: 'var(--space-12) var(--space-4) var(--space-8)' }}>
         <div className="footer-grid">
-          {/* Brand */}
-          <div>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
-              marginBottom: 'var(--space-4)',
-            }}>
+          {/* Brand Column */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }} aria-label="NovaHamo Tools">
               <div style={{
-                width: 34,
-                height: 34,
+                width: 36,
+                height: 36,
                 backgroundColor: '#ffffff',
                 borderRadius: 'var(--radius-md)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'hidden',
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                border: '1px solid rgba(0, 0, 0, 0.08)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
                 flexShrink: 0,
               }}>
                 <img
@@ -79,14 +89,33 @@ export default function Footer() {
                   }}
                 />
               </div>
-              <span style={{ fontWeight: 700, fontSize: '1.125rem', color: 'var(--color-footer-heading)' }}>
+              <span style={{ fontWeight: 800, fontSize: '1.2rem', color: 'var(--color-footer-heading)' }}>
                 NovaHamo Tools
               </span>
-            </div>
-            <p style={{ fontSize: '0.875rem', lineHeight: 1.6, maxWidth: '300px', marginBottom: 'var(--space-4)' }}>
-              Simple, useful online tools for everyday work. Free tools for images, PDFs, QR codes, video, documents, coding, and more.
+            </Link>
+
+            <p style={{
+              fontSize: '0.9375rem',
+              fontWeight: 600,
+              color: '#22C55E',
+              lineHeight: 1.4,
+              letterSpacing: '-0.01em',
+            }}>
+              Every Tool You Need. One Beautiful Workspace.
             </p>
-            <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+
+            <p style={{
+              fontSize: '0.85rem',
+              lineHeight: 1.6,
+              maxWidth: '320px',
+              color: 'var(--color-footer-text)',
+              opacity: 0.85,
+            }}>
+              Free, private, browser-based online tools for images, PDFs, QR codes, video, documents, coding, calculations, and daily productivity.
+            </p>
+
+            {/* Social Icons */}
+            <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2)' }}>
               {socialLinks.map(social => (
                 <a
                   key={social.label}
@@ -96,48 +125,64 @@ export default function Footer() {
                   aria-label={`Visit our ${social.label}`}
                   title={social.label}
                   style={{
-                    width: 36, height: 36,
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    width: 38,
+                    height: 38,
+                    borderRadius: 'var(--radius-full)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     color: 'var(--color-footer-text)',
-                    transition: 'all var(--transition-fast)',
+                    transition: 'all var(--transition-normal)',
                   }}
                   onMouseOver={e => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-primary)';
-                    e.currentTarget.style.color = '#fff';
-                    e.currentTarget.style.borderColor = 'var(--color-primary)';
+                    e.currentTarget.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+                    e.currentTarget.style.color = '#22C55E';
+                    e.currentTarget.style.borderColor = '#22C55E';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
                   }}
                   onMouseOut={e => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
                     e.currentTarget.style.color = 'var(--color-footer-text)';
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                    e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
-                  <social.icon size={16} />
+                  <social.icon size={17} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Categories */}
+          {/* Categories Column */}
           <div>
             <h3 style={{
               color: 'var(--color-footer-heading)',
-              fontSize: '0.875rem', fontWeight: 700,
-              textTransform: 'uppercase', letterSpacing: '0.05em',
+              fontSize: '0.8125rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
               marginBottom: 'var(--space-4)',
-            }}>Categories</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2)' }}>
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}>
+              <Sparkles size={14} style={{ color: '#22C55E' }} /> Categories
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-2)' }}>
               {categories.map(cat => (
-                <Link key={cat.id} to={cat.route} style={{
-                  fontSize: '0.8125rem',
-                  color: 'var(--color-footer-text)',
-                  textDecoration: 'none',
-                  padding: 'var(--space-1) 0',
-                  transition: 'color var(--transition-fast)',
-                }}
-                  onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary-light)'}
+                <Link
+                  key={cat.id}
+                  to={cat.route}
+                  style={{
+                    fontSize: '0.8125rem',
+                    color: 'var(--color-footer-text)',
+                    textDecoration: 'none',
+                    padding: '3px 0',
+                    transition: 'color var(--transition-fast)',
+                  }}
+                  onMouseOver={e => e.currentTarget.style.color = '#4ADE80'}
                   onMouseOut={e => e.currentTarget.style.color = 'var(--color-footer-text)'}
                 >
                   {cat.name}
@@ -146,48 +191,63 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links Column */}
           <div>
             <h3 style={{
               color: 'var(--color-footer-heading)',
-              fontSize: '0.875rem', fontWeight: 700,
-              textTransform: 'uppercase', letterSpacing: '0.05em',
+              fontSize: '0.8125rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
               marginBottom: 'var(--space-4)',
-            }}>Quick Links</h3>
+            }}>
+              Company & Legal
+            </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
               {[
-                { label: 'Home', path: '/' },
                 { label: 'All Tools', path: '/tools' },
-                { label: 'About', path: '/about' },
-                { label: 'Contact', path: '/contact' },
+                { label: 'All Categories', path: '/categories' },
+                { label: 'About NovaHamo Tools', path: '/about' },
+                { label: 'Contact Us', path: '/contact' },
                 { label: 'Privacy Policy', path: '/privacy' },
                 { label: 'Terms of Service', path: '/terms' },
               ].map(link => (
-                <Link key={link.path} to={link.path} style={{
-                  fontSize: '0.8125rem',
-                  color: 'var(--color-footer-text)',
-                  textDecoration: 'none',
-                  padding: 'var(--space-1) 0',
-                  transition: 'color var(--transition-fast)',
-                }}
-                  onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary-light)'}
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  style={{
+                    fontSize: '0.8125rem',
+                    color: 'var(--color-footer-text)',
+                    textDecoration: 'none',
+                    padding: '3px 0',
+                    transition: 'color var(--transition-fast)',
+                  }}
+                  onMouseOver={e => e.currentTarget.style.color = '#4ADE80'}
                   onMouseOut={e => e.currentTarget.style.color = 'var(--color-footer-text)'}
                 >
                   {link.label}
                 </Link>
               ))}
-              <a href="https://www.novahamotechnologies.com/" target="_blank" rel="noopener noreferrer" style={{
-                fontSize: '0.8125rem',
-                color: 'var(--color-footer-text)',
-                textDecoration: 'none',
-                display: 'flex', alignItems: 'center', gap: 'var(--space-1)',
-                padding: 'var(--space-1) 0',
-                transition: 'color var(--transition-fast)',
-              }}
-                onMouseOver={e => e.currentTarget.style.color = 'var(--color-primary-light)'}
+              <a
+                href="https://www.novahamotechnologies.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontSize: '0.8125rem',
+                  color: 'var(--color-footer-text)',
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '3px 0',
+                  marginTop: 'var(--space-1)',
+                  fontWeight: 600,
+                  transition: 'color var(--transition-fast)',
+                }}
+                onMouseOver={e => e.currentTarget.style.color = '#4ADE80'}
                 onMouseOut={e => e.currentTarget.style.color = 'var(--color-footer-text)'}
               >
-                Company Website <ExternalLink size={12} />
+                novahamotechnologies.com <ExternalLink size={12} />
               </a>
             </div>
           </div>
@@ -195,27 +255,29 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div style={{
-          marginTop: 'var(--space-8)',
+          marginTop: 'var(--space-10)',
           paddingTop: 'var(--space-6)',
-          borderTop: '1px solid rgba(255,255,255,0.08)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'space-between',
           alignItems: 'center',
-          gap: 'var(--space-4)',
+          gap: 'var(--space-3)',
           fontSize: '0.8125rem',
         }}>
-          <p>© {currentYear} NovaHamo Technologies Pvt. Ltd. All rights reserved.</p>
-          <p style={{ color: 'rgba(255,255,255,0.4)' }}>
-            NovaHamo Tools — Simple, useful online tools for everyday work.
+          <p style={{ color: 'var(--color-footer-text)', opacity: 0.8 }}>
+            © {currentYear} NovaHamo Technologies Pvt. Ltd. All rights reserved.
+          </p>
+          <p style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: 'var(--color-footer-text)', opacity: 0.7 }}>
+            Designed with <Heart size={13} style={{ color: '#22C55E', fill: '#22C55E' }} /> for the world.
           </p>
         </div>
       </div>
 
       <style>{`
-        @media (min-width: 768px) {
+        @media screen and (min-width: 900px) {
           .footer-grid {
-            grid-template-columns: 1.5fr 1fr 1fr !important;
+            grid-template-columns: 1.4fr 1.3fr 1fr !important;
           }
         }
       `}</style>

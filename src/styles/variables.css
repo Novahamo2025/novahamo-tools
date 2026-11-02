@@ -2,104 +2,107 @@
 :root,
 [data-theme="light"] {
   /* Primary */
-  --color-primary: #15803D;
-  --color-primary-hover: #116d33;
+  --color-primary: #16A34A;
+  --color-primary-hover: #15803D;
   --color-primary-light: #22C55E;
   --color-primary-bg: #F0FDF4;
   --color-primary-text: #FFFFFF;
+  --color-primary-glow: rgba(22, 163, 74, 0.25);
+
+  /* Accent */
+  --color-accent: #4ADE80;
 
   /* Surfaces */
-  --color-bg: #F8FAFC;
+  --color-bg: #F7FAF8;
   --color-surface: #FFFFFF;
   --color-card: #FFFFFF;
   --color-card-hover: #F0FDF4;
+  --color-glass: rgba(255, 255, 255, 0.75);
+  --color-glass-border: rgba(255, 255, 255, 0.5);
 
   /* Text */
-  --color-text: #17212B;
-  --color-text-secondary: #64748B;
-  --color-text-muted: #94A3B8;
+  --color-text: #0A1F14;
+  --color-text-secondary: #4B7063;
+  --color-text-muted: #8BA89C;
 
-  /* Borders & Shadows */
-  --color-border: #E2E8F0;
-  --color-border-light: #F1F5F9;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+  /* Borders */
+  --color-border: #D1E5D9;
+  --color-border-light: #E8F3EC;
+
+  /* Header */
+  --color-header-bg: rgba(247, 250, 248, 0.85);
+  --color-header-border: rgba(209, 229, 217, 0.5);
+
+  /* Footer */
+  --color-footer-bg: #071510;
+  --color-footer-text: #8BA89C;
+  --color-footer-heading: #F0FDF4;
+
+  /* Upload area */
+  --color-upload-bg: #F7FAF8;
+  --color-upload-border: #A7F3D0;
+  --color-upload-hover: #F0FDF4;
+
+  /* Code */
+  --color-code-bg: #F0FDF4;
 
   /* Input */
   --color-input-bg: #FFFFFF;
-  --color-input-border: #CBD5E1;
-  --color-input-focus: #15803D;
+  --color-input-border: #D1E5D9;
+  --color-input-focus: #16A34A;
 
   /* Status */
   --color-success: #22C55E;
   --color-error: #EF4444;
   --color-warning: #F59E0B;
   --color-info: #3B82F6;
-
-  /* Header */
-  --color-header-bg: #FFFFFF;
-  --color-header-border: #E2E8F0;
-
-  /* Footer */
-  --color-footer-bg: #0F172A;
-  --color-footer-text: #CBD5E1;
-  --color-footer-heading: #F1F5F9;
-
-  /* Upload area */
-  --color-upload-bg: #F8FAFC;
-  --color-upload-border: #CBD5E1;
-  --color-upload-hover: #F0FDF4;
-
-  /* Code */
-  --color-code-bg: #F1F5F9;
 }
 
 [data-theme="dark"] {
   --color-primary: #22C55E;
   --color-primary-hover: #16A34A;
   --color-primary-light: #4ADE80;
-  --color-primary-bg: rgba(34, 197, 94, 0.1);
+  --color-primary-bg: rgba(34, 197, 94, 0.08);
   --color-primary-text: #FFFFFF;
+  --color-primary-glow: rgba(34, 197, 94, 0.2);
 
-  --color-bg: #0B1220;
-  --color-surface: #111C2E;
-  --color-card: #162337;
-  --color-card-hover: #1C2D45;
+  --color-accent: #4ADE80;
 
-  --color-text: #F1F5F9;
-  --color-text-secondary: #A8B5C7;
-  --color-text-muted: #64748B;
+  --color-bg: #071510;
+  --color-surface: #0D1F16;
+  --color-card: #10251C;
+  --color-card-hover: #15301F;
+  --color-glass: rgba(16, 37, 28, 0.8);
+  --color-glass-border: rgba(34, 197, 94, 0.15);
 
-  --color-border: #1E3048;
-  --color-border-light: #162337;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -2px rgba(0,0,0,0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -4px rgba(0,0,0,0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.4);
+  --color-text: #E8F5EC;
+  --color-text-secondary: #7BB89A;
+  --color-text-muted: #4A7C5F;
 
-  --color-input-bg: #162337;
-  --color-input-border: #1E3048;
+  --color-border: #1A3D28;
+  --color-border-light: #10251C;
+
+  --color-header-bg: rgba(7, 21, 16, 0.9);
+  --color-header-border: rgba(26, 61, 40, 0.6);
+
+  --color-footer-bg: #040E0A;
+  --color-footer-text: #7BB89A;
+  --color-footer-heading: #E8F5EC;
+
+  --color-upload-bg: #0D1F16;
+  --color-upload-border: #1A3D28;
+  --color-upload-hover: rgba(34, 197, 94, 0.05);
+
+  --color-code-bg: #0D1F16;
+
+  --color-input-bg: #10251C;
+  --color-input-border: #1A3D28;
   --color-input-focus: #22C55E;
 
   --color-success: #22C55E;
   --color-error: #F87171;
   --color-warning: #FBBF24;
   --color-info: #60A5FA;
-
-  --color-header-bg: #0F1929;
-  --color-header-border: #1E3048;
-
-  --color-footer-bg: #070D18;
-  --color-footer-text: #A8B5C7;
-  --color-footer-heading: #F1F5F9;
-
-  --color-upload-bg: #111C2E;
-  --color-upload-border: #1E3048;
-  --color-upload-hover: rgba(34, 197, 94, 0.05);
-
-  --color-code-bg: #0F1929;
 }
 
 /* ===== SPACING ===== */
@@ -116,20 +119,44 @@
   --space-16: 4rem;
   --space-20: 5rem;
 
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
   --radius-full: 9999px;
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
 
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-  --transition-slow: 350ms ease;
+  /* Premium Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 24px 48px -8px rgba(0, 0, 0, 0.15), 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+  --shadow-2xl: 0 40px 64px -12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 40px rgba(22, 163, 74, 0.3);
+  --shadow-glow-sm: 0 0 20px rgba(22, 163, 74, 0.2);
 
+  /* 3D & Glass */
+  --glass-blur: blur(16px);
+  --glass-blur-sm: blur(8px);
+  --border-glass: 1px solid var(--color-glass-border);
+
+  /* Animations */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Container & Layout */
   --container-max: 1280px;
-  --header-height: 64px;
+  --header-height: 68px;
 }
