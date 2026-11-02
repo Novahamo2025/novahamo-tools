@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Sun, Moon, Search } from 'lucide-react';
 import { searchTools } from '../data/tools';
+import ToolIcon from './ToolIcon';
 
 export default function Header({ theme, toggleTheme }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -144,14 +145,18 @@ export default function Header({ theme, toggleTheme }) {
                         key={tool.id}
                         to={tool.route}
                         className="search-result-item"
+                        style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
                         onClick={() => {
                           setSearchOpen(false);
                           setSearchQuery('');
                         }}
                       >
-                        <div className="search-result-name">{tool.name}</div>
-                        <div className="search-result-desc">
-                          {tool.description.substring(0, 68)}...
+                        <ToolIcon toolId={tool.id} category={tool.category} size="sm" showBadge={false} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div className="search-result-name">{tool.name}</div>
+                          <div className="search-result-desc">
+                            {tool.description.substring(0, 68)}...
+                          </div>
                         </div>
                       </Link>
                     ))}

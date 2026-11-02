@@ -6,6 +6,7 @@ import tools, { getToolsByCategory } from '../data/tools';
 import { getCategoryById } from '../data/categories';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ToolCard from '../components/ToolCard';
+import ToolIcon from '../components/ToolIcon';
 
 function ToolSkeleton() {
   return (
@@ -81,20 +82,8 @@ export default function ToolPage() {
           style={{ marginBottom: 'var(--space-8)' }}
         >
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
-            <div style={{
-              width: 52,
-              height: 52,
-              borderRadius: 'var(--radius-xl)',
-              backgroundColor: `${catColor}15`,
-              color: catColor,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: `0 8px 24px ${catColor}20`,
-              border: `1px solid ${catColor}30`,
-              flexShrink: 0,
-            }}>
-              {category?.icon ? <category.icon size={26} /> : <Sparkles size={26} />}
+            <div style={{ flexShrink: 0 }}>
+              <ToolIcon toolId={tool.id} category={tool.category} size="lg" />
             </div>
 
             <div style={{ flex: 1, minWidth: 260 }}>
