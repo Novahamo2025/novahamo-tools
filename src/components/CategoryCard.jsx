@@ -1,27 +1,32 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { getToolCount } from '../data/tools';
+import CategoryVisual3D from './CategoryVisual3D';
 
 export default function CategoryCard({ category }) {
   const Icon = category.icon;
   const toolCount = getToolCount(category.id);
 
-  // 3D tilt effect
+  // 3D Tilt Physics
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), {
-    stiffness: 300,
-    damping: 30,
+
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [10, -10]), {
+    stiffness: 280,
+    damping: 24,
   });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), {
-    stiffness: 300,
-    damping: 30,
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-10, 10]), {
+    stiffness: 280,
+    damping: 24,
   });
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
+    const xVal = (e.clientX - rect.left) / rect.width - 0.5;
+    const yVal = (e.clientY - rect.top) / rect.height - 0.5;
+    x.set(xVal);
+    y.set(yVal);
   };
 
   const handleMouseLeave = () => {
@@ -33,31 +38,45 @@ export default function CategoryCard({ category }) {
     <motion.div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformPerspective: 1200 }}
-      whileHover={{ y: -6, scale: 1.01 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+      style={{ rotateX, rotateY, transformPerspective: 1200, height: '100%' }}
+      whileHover={{ y: -6, scale: 1.015 }}
+      transition={{ type: 'spring', stiffness: 350, damping: 25 }}
     >
       <Link
         to={category.route}
-        className="category-card"
+        className="category-card-3d"
         style={{ '--cat-color': category.color }}
       >
-        {/* Decorative background pattern */}
-        <div className="category-card-bg-pattern" />
+        {/* Holographic glowing edge reflection */}
+        <div className="cat-card-edge-glow" />
 
-        {/* Icon */}
-        <div className="category-card-icon">
-          <Icon size={28} />
+        {/* Top bar with icon and tool count */}
+        <div className="cat-card-topbar">
+          <div className="cat-card-icon-badge">
+            <Icon size={24} />
+          </div>
+          <span className="cat-card-count-pill">
+            <Sparkles size={11} /> {toolCount} tools
+          </span>
         </div>
 
-        {/* Content */}
-        <h3 className="category-card-title">{category.name}</h3>
-        <p className="category-card-desc">{category.description}</p>
+        {/* Bespoke 3D Animated Category Composition */}
+        <div className="cat-card-visual-wrapper">
+          <CategoryVisual3D categoryId={category.id} color={category.color} />
+        </div>
 
-        {/* Footer */}
-        <div className="category-card-footer">
-          <span className="category-card-count">{toolCount} tools</span>
-          <span className="category-card-explore">Explore →</span>
+        {/* Title and Description */}
+        <div className="cat-card-body">
+          <h3 className="cat-card-title">{category.name}</h3>
+          <p className="cat-card-desc">{category.description}</p>
+        </div>
+
+        {/* Footer with action arrow */}
+        <div className="cat-card-footer">
+          <span className="cat-card-action-text">Launch Workspace</span>
+          <div className="cat-card-arrow-disc">
+            <ArrowRight size={14} />
+          </div>
         </div>
       </Link>
     </motion.div>

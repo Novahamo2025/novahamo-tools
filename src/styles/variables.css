@@ -61,42 +61,43 @@
 [data-theme="dark"] {
   --color-primary: #22C55E;
   --color-primary-hover: #16A34A;
-  --color-primary-light: #4ADE80;
-  --color-primary-bg: rgba(34, 197, 94, 0.08);
+  --color-primary-light: #6DFF9A;
+  --color-primary-bg: rgba(34, 197, 94, 0.1);
   --color-primary-text: #FFFFFF;
-  --color-primary-glow: rgba(34, 197, 94, 0.2);
+  --color-primary-glow: rgba(34, 197, 94, 0.35);
 
-  --color-accent: #4ADE80;
+  --color-accent: #6DFF9A;
+  --color-deep-emerald: #064E3B;
 
-  --color-bg: #071510;
-  --color-surface: #0D1F16;
-  --color-card: #10251C;
-  --color-card-hover: #15301F;
-  --color-glass: rgba(16, 37, 28, 0.8);
-  --color-glass-border: rgba(34, 197, 94, 0.15);
+  --color-bg: #050B08;
+  --color-surface: #0B1710;
+  --color-card: #0B1710;
+  --color-card-hover: #10251C;
+  --color-glass: rgba(255, 255, 255, 0.06);
+  --color-glass-border: rgba(109, 255, 154, 0.18);
 
-  --color-text: #E8F5EC;
-  --color-text-secondary: #7BB89A;
-  --color-text-muted: #4A7C5F;
+  --color-text: #F0FDF4;
+  --color-text-secondary: #86EFAC;
+  --color-text-muted: #4ADE80;
 
-  --color-border: #1A3D28;
-  --color-border-light: #10251C;
+  --color-border: rgba(109, 255, 154, 0.15);
+  --color-border-light: rgba(109, 255, 154, 0.08);
 
-  --color-header-bg: rgba(7, 21, 16, 0.9);
-  --color-header-border: rgba(26, 61, 40, 0.6);
+  --color-header-bg: rgba(5, 11, 8, 0.85);
+  --color-header-border: rgba(109, 255, 154, 0.2);
 
-  --color-footer-bg: #040E0A;
-  --color-footer-text: #7BB89A;
-  --color-footer-heading: #E8F5EC;
+  --color-footer-bg: #030705;
+  --color-footer-text: #86EFAC;
+  --color-footer-heading: #F0FDF4;
 
-  --color-upload-bg: #0D1F16;
-  --color-upload-border: #1A3D28;
-  --color-upload-hover: rgba(34, 197, 94, 0.05);
+  --color-upload-bg: rgba(11, 23, 16, 0.6);
+  --color-upload-border: rgba(109, 255, 154, 0.25);
+  --color-upload-hover: rgba(34, 197, 94, 0.12);
 
-  --color-code-bg: #0D1F16;
+  --color-code-bg: #07120B;
 
-  --color-input-bg: #10251C;
-  --color-input-border: #1A3D28;
+  --color-input-bg: #0B1710;
+  --color-input-border: rgba(109, 255, 154, 0.2);
   --color-input-focus: #22C55E;
 
   --color-success: #22C55E;
