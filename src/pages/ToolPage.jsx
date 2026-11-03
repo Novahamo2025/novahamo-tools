@@ -33,6 +33,19 @@ export default function ToolPage() {
 
   const tool = tools.find(t => t.id === toolSlug || t.route === route);
 
+  // Auto-scroll to the tool workspace after the page mounts.
+  // Must be called unconditionally before early return to obey Rules of Hooks.
+  const workspaceRef = useRef(null);
+  useEffect(() => {
+    if (!tool) return;
+    const timer = setTimeout(() => {
+      if (workspaceRef.current) {
+        workspaceRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [tool?.id]);
+
   if (!tool) {
     return (
       <div className="section">
@@ -57,19 +70,6 @@ export default function ToolPage() {
 
   const category = getCategoryById(tool.category);
   const ToolComponent = tool.component;
-
-  // Auto-scroll to the tool workspace after the page mounts.
-  // The delay accounts for Framer Motion entrance animation + Suspense rendering.
-  const workspaceRef = useRef(null);
-  useEffect(() => {
-    if (!tool) return;
-    const timer = setTimeout(() => {
-      if (workspaceRef.current) {
-        workspaceRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 450);
-    return () => clearTimeout(timer);
-  }, [tool?.id]); // re-trigger if the tool changes (e.g. navigating between tool pages)
 
   const relatedTools = getToolsByCategory(tool.category)
     .filter(t => t.id !== tool.id && t.route !== tool.route)

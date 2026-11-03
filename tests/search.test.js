@@ -25,6 +25,18 @@ describe('NovaHamo Tools - Global Search Engine', () => {
 
     const calcResults = searchTools('calculators');
     expect(calcResults.length).toBeGreaterThanOrEqual(10);
+
+    const videoAudioResults = searchTools('video & audio');
+    expect(videoAudioResults.length).toBeGreaterThanOrEqual(20);
+
+    const studentJobResults = searchTools('student & job');
+    expect(studentJobResults.length).toBeGreaterThanOrEqual(15);
+
+    const photoResults = searchTools('photo tools');
+    expect(photoResults.length).toBeGreaterThanOrEqual(20);
+
+    const everydayResults = searchTools('everyday tools');
+    expect(everydayResults.length).toBeGreaterThanOrEqual(10);
   });
 
   it('matches tools by keywords and synonyms', () => {

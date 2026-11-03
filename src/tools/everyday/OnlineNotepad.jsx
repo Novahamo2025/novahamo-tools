@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Download, Trash2, Copy, Save, Check } from 'lucide-react';
-import { copyToClipboard } from '../../utils/download';
+import { copyToClipboard, downloadBlob } from '../../utils/download';
 
 const STORAGE_KEY = 'novahamo-notepad';
 
@@ -27,10 +27,7 @@ export default function OnlineNotepad() {
 
   const downloadText = () => {
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `notes_${new Date().toISOString().split('T')[0]}.txt`;
-    a.click();
+    downloadBlob(blob, `notes_${new Date().toISOString().split('T')[0]}.txt`);
   };
 
   const words = content.trim() ? content.trim().split(/\s+/).length : 0;

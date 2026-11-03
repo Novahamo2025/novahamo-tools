@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Copy, Download, RotateCcw } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
-import { copyToClipboard } from '../../utils/download';
+import { copyToClipboard, downloadBlob } from '../../utils/download';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version || '4.4.168'}/pdf.worker.min.mjs`;
 
@@ -39,10 +39,8 @@ export default function PDFToText() {
 
   const downloadTxt = () => {
     const blob = new Blob([extractedText], { type: 'text/plain;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = (file?.name.replace(/\.[^/.]+$/, '') || 'extracted_text') + '.txt';
-    a.click();
+    const filename = (file?.name.replace(/\.[^/.]+$/, '') || 'extracted_text') + '.txt';
+    downloadBlob(blob, filename);
   };
 
   return (

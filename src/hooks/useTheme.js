@@ -19,7 +19,11 @@ export function useTheme() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(STORAGE_KEY, theme);
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      // Safe fallback when storage is restricted or private mode
+    }
   }, [theme]);
 
   const toggleTheme = useCallback(() => {

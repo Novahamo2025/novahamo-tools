@@ -1886,20 +1886,62 @@ export function getToolCount(categoryId) {
   return tools.filter(t => t.category === categoryId).length;
 }
 
+const CATEGORY_SYNONYMS = {
+  qr: ['qr code', 'qr codes', 'qr code tools', 'barcode', 'scan qr'],
+  images: ['image & photo tools', 'image tools', 'photo tools', 'photo editor', 'pictures', 'photos', 'image and photo'],
+  pdf: ['pdf & document tools', 'pdf tools', 'documents', 'docs', 'pdf document', 'pdf and document'],
+  'video-audio': ['video & audio tools', 'video tools', 'audio tools', 'media', 'sound', 'music', 'video audio', 'video and audio'],
+  'student-job': ['student & job tools', 'student tools', 'job tools', 'career', 'education', 'resume', 'academic', 'study', 'student and job'],
+  'social-media': ['social media & creator tools', 'social media', 'creator tools', 'social tools', 'youtube', 'instagram', 'social media and creator'],
+  'text': ['text & writing tools', 'text tools', 'writing tools', 'string utilities', 'words', 'typography', 'text and writing'],
+  'developer': ['developer tools', 'dev tools', 'coding', 'programming', 'code utilities', 'web dev'],
+  'calculators': ['calculators & converters', 'calculator tools', 'converter tools', 'calculators', 'finance', 'math', 'calculators and converters'],
+  'everyday': ['useful everyday tools', 'everyday tools', 'daily utilities', 'utilities', 'everyday utilities', 'daily tools', 'useful everyday'],
+};
+
 export function searchTools(query) {
   if (!query || query.trim().length === 0) return [];
   const q = query.toLowerCase().trim();
+  const qWords = q.split(/\s+/).filter(Boolean);
+
   return tools.filter(tool => {
-    const nameMatch = tool.name.toLowerCase().includes(q);
-    const descMatch = tool.description.toLowerCase().includes(q);
-    const keywordMatch = tool.keywords.some(k => k.toLowerCase().includes(q));
-    const categoryMatch = tool.category.toLowerCase().includes(q);
-    return nameMatch || descMatch || keywordMatch || categoryMatch;
+    const name = tool.name.toLowerCase();
+    const desc = tool.description.toLowerCase();
+    const keywords = (tool.keywords || []).map(k => k.toLowerCase());
+    const cat = (tool.category || '').toLowerCase();
+    const catSynonyms = CATEGORY_SYNONYMS[tool.category] || [];
+
+    // Direct exact or substring matches
+    if (name.includes(q)) return true;
+    if (desc.includes(q)) return true;
+    if (keywords.some(k => k.includes(q))) return true;
+    if (cat.includes(q)) return true;
+    if (catSynonyms.some(s => s.includes(q) || q.includes(s))) return true;
+
+    // Multi-word matches: if all search words match somewhere across tool metadata
+    if (qWords.length > 1) {
+      const allText = `${name} ${desc} ${keywords.join(' ')} ${cat} ${catSynonyms.join(' ')}`;
+      if (qWords.every(word => allText.includes(word))) return true;
+    }
+
+    return false;
   }).sort((a, b) => {
-    // Prioritize name matches
-    const aName = a.name.toLowerCase().includes(q) ? 0 : 1;
-    const bName = b.name.toLowerCase().includes(q) ? 0 : 1;
-    return aName - bName;
+    const aName = a.name.toLowerCase();
+    const bName = b.name.toLowerCase();
+
+    // Priority scoring
+    let aScore = 0;
+    let bScore = 0;
+
+    if (aName === q) aScore += 100;
+    else if (aName.startsWith(q)) aScore += 60;
+    else if (aName.includes(q)) aScore += 40;
+
+    if (bName === q) bScore += 100;
+    else if (bName.startsWith(q)) bScore += 60;
+    else if (bName.includes(q)) bScore += 40;
+
+    return bScore - aScore;
   });
 }
 
