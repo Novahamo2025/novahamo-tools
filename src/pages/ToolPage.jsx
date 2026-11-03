@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useRef, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ShieldCheck, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -57,6 +57,19 @@ export default function ToolPage() {
 
   const category = getCategoryById(tool.category);
   const ToolComponent = tool.component;
+
+  // Auto-scroll to the tool workspace after the page mounts.
+  // The delay accounts for Framer Motion entrance animation + Suspense rendering.
+  const workspaceRef = useRef(null);
+  useEffect(() => {
+    if (!tool) return;
+    const timer = setTimeout(() => {
+      if (workspaceRef.current) {
+        workspaceRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [tool?.id]); // re-trigger if the tool changes (e.g. navigating between tool pages)
 
   const relatedTools = getToolsByCategory(tool.category)
     .filter(t => t.id !== tool.id && t.route !== tool.route)
@@ -131,6 +144,8 @@ export default function ToolPage() {
 
         {/* Tool Component Workspace */}
         <motion.div
+          ref={workspaceRef}
+          style={{ scrollMarginTop: 'calc(var(--header-height, 68px) + 1.5rem)' }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
